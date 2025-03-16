@@ -32,14 +32,19 @@ You will get a TXT file with filepaths and alphaweights which comes handy when c
   2) Alpha weights\
      Alpha weights dont actually "alter" your export image's alpha but rather is used by the algortithm for handling pixel comparison for PS2 image export and by default is set to 0.3.\
      If you notice your image has repeating colors/incorrect color, set it to 1 so that more of the alpha component of the image gets considered when comparing pixels.\
-     If you set it to 0, more of the RGB component has higher priorty than the alpha component, which is great for color heavy images but will might compromise a bit on your alpha quality.\
+     If you set it to 0, more of the RGB component has higher priorty than the alpha component, which is great for color heavy images but will might compromise a bit on your alpha quality.
      
      **Alpha weights can only be set with TXB-TXT combo.**
      
 ### Credits
-  -SutandoTsukai, for his binary reader!
-  -SamuraiOndo, for helping me with setting up 4bpp indexing code!
-  -EdnessP, for allowing me to use his Noesis TXB script as a base!
+   Special thanks goes to:\
+  -[SutandoTsukai](https://github.com/mosamadeeb) for his [binary reader](https://github.com/mosamadeeb/PyBinaryReader)!\
+  -[SamuraiOndo](https://github.com/SamuraiOndo), for helping me with setting up 4bpp indexing code!\
+  -[EdnessP](https://github.com/EdnessP), for allowing me to use his Noesis TXB script as a base!
+
+## Suggested Tools:
+   -Use [DATman](https://github.com/SamuraiOndo/DATMan) by [SamuraiOndo](https://github.com/SamuraiOndo) for extraction of DAT files and other archives like arc,bin etc.\
+   -Use [EdnessP](https://github.com/EdnessP)'s [Noesis TXB script](https://github.com/EdnessP/scripts/blob/main/other/tex_Yakuza.py) for extracting images from textures.
   
 ### Code citations
   https://stackoverflow.com/questions/57025836/how-to-check-if-a-given-number-is-a-power-of-two \
