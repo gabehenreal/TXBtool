@@ -45,7 +45,7 @@ You will get a TXT file with filepaths and alphaweights which comes handy when c
 
 ## Suggested Tools:
    -Use [DATman](https://github.com/SamuraiOndo/DATMan) by [SamuraiOndo](https://github.com/SamuraiOndo) for extraction of DAT files and other archives like arc,bin etc.\
-   -Use [EdnessP](https://github.com/EdnessP)'s [Noesis TXB script](https://github.com/EdnessP/scripts/blob/main/other/tex_Yakuza.py) for extracting images from textures.
+   -Use [EdnessP](https://github.com/EdnessP)'s [Noesis TXB script](https://github.com/EdnessP/scripts/blob/main/other/tex_Yakuza.py) for extracting images from TXB's.
   
 ### Code citations
   https://stackoverflow.com/questions/57025836/how-to-check-if-a-given-number-is-a-power-of-two \
