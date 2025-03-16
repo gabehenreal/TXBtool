@@ -35,6 +35,7 @@ You will get a TXT file with filepaths and alphaweights which comes handy when c
      If you set it to 0, more of the RGB component has higher priorty than the alpha component, which is great for color heavy images but will might compromise a bit on your alpha quality.
      
      **Alpha weights can only be set with TXB-TXT combo.**
+   3) It is preferable for your DDS files to have some mipmaps if you exporting for a PS3 TXB
      
 ### Credits
    Special thanks goes to:\
