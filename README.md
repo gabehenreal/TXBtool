@@ -15,9 +15,9 @@ A Python tool that converts DXT5 DDS files to Yakuza 1&2 (PS3 ONLY) TXB's and .P
 To use the tool, just click on the tool and you will be greeted by a windows explorer screen asking you to select files.
 There are mainly 2 types of export options:
 
-1) TXB-Image combo:
+1) TXB-Image combo:\
    Basically, select the TXB and the images (ensure that your images have the same count as in the TXB) and press "ok" in the explorer.
-2) TXB-TXT combo:
+2) TXB-TXT combo:\
   If you have a list of imagepaths and their respective alphaweight values , you can just select the TXB and the TXT file for exporting.
 
 If you want to make a "imagelists.txt" file, just select only the images and press "Open" in the explorer window.\
