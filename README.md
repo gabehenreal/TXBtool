@@ -12,11 +12,11 @@ A Python tool that converts DXT5 DDS files to Yakuza 1&2 (PS3 ONLY) TXB's and .P
 
 ### Usage:
 
-To use the tool, just click on the tool and you will be greeted by a windows explorer screen asking you to select files.
+To use the tool, just click on the tool and you will be greeted by a Windows Explorer screen asking you to select files.
 There are mainly 2 types of export options:
 
 1) TXB-Image combo:\
-   Basically, select the TXB and the images (ensure that your images have the same count as in the TXB) and press "ok" in the explorer.
+   Select the TXB and the images (ensure that your images have the same count as in the TXB) and press "Open" in the Explorer.
 2) TXB-TXT combo:\
   If you have a list of imagepaths and their respective alphaweight values , you can just select the TXB and the TXT file for exporting.
 
@@ -27,7 +27,7 @@ You will get a TXT file with filepaths and alphaweights which comes handy when c
 
 ### Note:
   1) Selection order\
-     If you have, for example 5 images named 1-0_0.png to 1-0_4.png and want to do TXB-Image combo, you **MUST** select the last image first (which is 1-0_4.png) and then the TXB or the first image if you are doing TXB-TXT combo, otherwise the order exported will be wrong.
+     If you have, for example 5 images named 1-0_0.png to 1-0_4.png and want to do TXB-Image combo, you **MUST** select the last image first (which is 1-0_4.png) and then the TXB (for  a TXB-Image combo) or the first image if you are making "imagelists.txt", otherwise the order exported will be wrong.
 
   2) Alpha weights\
      Alpha weights dont actually "alter" your export image's alpha but rather is used by the algortithm for handling pixel comparison for PS2 image export and by default is set to 0.3.\
