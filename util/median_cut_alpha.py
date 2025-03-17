@@ -124,9 +124,7 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
     while len(bins) < size:
         temp = []
         for i in bins:
-            s_i = sort_pixels_by_highest_variance_channel(
-                i
-            )  # very important that this is done
+            s_i = sort_pixels_by_highest_variance_channel(i)  # very important that this is done
             temp.append(s_i[: len(s_i) // 2])
             temp.append(s_i[len(s_i) // 2 :])
         bins.clear()
@@ -156,7 +154,7 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
         if centroid not in avg:
             avg.append(centroid)
 
-    ## fill up unused spots with colors from those avg bins
+    # fill up unused spots with colors from those avg bins
     extra_clr_list = []
     averages.reverse()
     count = 0
@@ -181,5 +179,5 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
         avg.append(extra_clr_list[-1 * (j + 1)])
     image_final, actualfinal = assign_colors(
         pixels, avg, alpha_influence
-    )  ##image_final was used to directly export it to png for preview
+    )  # image_final was used to directly export it to png for preview
     return actualfinal, encode_ps2_shift_to_pallete(avg), height, width

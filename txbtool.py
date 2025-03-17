@@ -30,9 +30,7 @@ def get_txb_data(txb_filepath):
         reader.seek(skip_bytes)
         header_filesize = reader.read_uint32()
         resolution = reader.read_uint32()  ## dds txbs have only 1 res component
-        txb_ddsmmc = (
-            reader.read_uint32()
-        )  ## mipmap count IF this is a dds txb, in ps2 this wouldve been another res component
+        txb_ddsmmc = reader.read_uint32()  ## mipmap count IF this is a dds txb, in ps2 this wouldve been another res component
         txb_flag = reader.read_uint32()
         mipmap_counts.append(txb_ddsmmc)
 
