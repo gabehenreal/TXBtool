@@ -60,9 +60,9 @@ def obtain_from_bin(color_bin, count):
     exp = []
     for i in range(count):
         bin_alt = more_bins[i]
-        rgba = [[0]] * 4
+        rgba = [0] * 4
         for j in bin_alt:
-            for o in j:
+            for o in range(len(j)):
                 rgba[o] += j[o]
 
         if len(bin_alt) != 0:
@@ -134,9 +134,9 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
     averages = [[]] * (8 if size == 256 else 4)
     for i in range(size):
         clrbin = bins[i]
-        rgba = [[0]] * 4
+        rgba = [0] * 4
         for j in clrbin:
-            for o in j:
+            for o in range(len(j)):
                 rgba[o] += j[o]
 
         centroid = (
@@ -179,5 +179,10 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
         avg.append(extra_clr_list[-1 * (j + 1)])
     image_final, actualfinal = assign_colors(
         pixels, avg, alpha_influence
-    )  # image_final was used to directly export it to png for preview
-    return actualfinal, encode_ps2_shift_to_pallete(avg), height, width
+    ) 
+
+    if size == 16:
+        return actualfinal, avg, height, width
+    else:
+        return actualfinal, encode_ps2_shift_to_pallete(avg), height, width
+    
