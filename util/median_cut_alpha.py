@@ -3,34 +3,38 @@ import numpy as np
 
 
 def encode_ps2_shift_to_pallete(palette_int):
-    sliced_palette_int = palette_int[8:]  ### skips the first 8 entries
-    temp_buffer = []
-    for i in range(8):
-        chunk = sliced_palette_int[
-            (32 * i) : 32 + (32 * i)
-        ]  ## contains both the swap chunk and a normal chunk
-        edit_chunk = chunk[:16]
-        og_chunk = chunk[16:]
+    if len(palette_int) == 256:
+        print(f"Pallete size: {len(palette_int)}", end=" ")
+        sliced_palette_int = palette_int[8:]  ### skips the first 8 entries
+        temp_buffer = []
+        for i in range(8):
+            chunk = sliced_palette_int[
+                (32 * i) : 32 + (32 * i)
+            ]  ## contains both the swap chunk and a normal chunk
+            edit_chunk = chunk[:16]
+            og_chunk = chunk[16:]
 
-        # swaps done within "one" line
-        temp_buffer.append(
-            [
-                edit_chunk[8], edit_chunk[9], edit_chunk[10], edit_chunk[11],
-                edit_chunk[12], edit_chunk[13], edit_chunk[14], edit_chunk[15],
-                edit_chunk[0], edit_chunk[1], edit_chunk[2], edit_chunk[3],
-                edit_chunk[4], edit_chunk[5], edit_chunk[6], edit_chunk[7]
-            ]
-        )
-        temp_buffer.append(og_chunk)  # retain the other original part
+            # swaps done within "one" line
+            temp_buffer.append(
+                [
+                    edit_chunk[8], edit_chunk[9], edit_chunk[10], edit_chunk[11],
+                    edit_chunk[12], edit_chunk[13], edit_chunk[14], edit_chunk[15],
+                    edit_chunk[0], edit_chunk[1], edit_chunk[2], edit_chunk[3],
+                    edit_chunk[4], edit_chunk[5], edit_chunk[6], edit_chunk[7]
+                ]
+            )
+            temp_buffer.append(og_chunk)  # retain the other original part
 
-    final_palette = []  # make final palette
-    for i in palette_int[:8]:  # appends the excluded 8 entries
-        final_palette.append(i)
+        final_palette = []  # make final palette
+        for i in palette_int[:8]:  # appends the excluded 8 entries
+            final_palette.append(i)
 
-    for k in temp_buffer:
-        for j in k:
-            final_palette.append(j)
-    return final_palette
+        for k in temp_buffer:
+            for j in k:
+                final_palette.append(j)
+        return final_palette
+    else:
+        return palette_int
 
 
 def sort_pixels_by_highest_variance_channel(pixels):
@@ -62,8 +66,8 @@ def obtain_from_bin(color_bin, count):
         bin_alt = more_bins[i]
         rgba = [0] * 4
         for j in bin_alt:
-            for o in range(len(j)):
-                rgba[o] += j[o]
+            for e in range(4):
+                rgba[e] += j[e]
 
         if len(bin_alt) != 0:
             centroid = (
@@ -108,7 +112,7 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
     pixels = []
 
     width, height = img.size
-    print(width, height)
+    print((width, height),end=" ")
 
     for y in range(width):  # probably could be done in 1 line rather than this
         for x in range(height):
@@ -124,7 +128,9 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
     while len(bins) < size:
         temp = []
         for i in bins:
-            s_i = sort_pixels_by_highest_variance_channel(i)  # very important that this is done
+            s_i = sort_pixels_by_highest_variance_channel(
+                i
+            )  # very important that this is done
             temp.append(s_i[: len(s_i) // 2])
             temp.append(s_i[len(s_i) // 2 :])
         bins.clear()
@@ -136,9 +142,8 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
         clrbin = bins[i]
         rgba = [0] * 4
         for j in clrbin:
-            for o in range(len(j)):
-                rgba[o] += j[o]
-
+            for e in range(4):
+                rgba[e] += j[e]
         centroid = (
             rgba[0] // len(clrbin),
             rgba[1] // len(clrbin),
@@ -154,10 +159,13 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
         if centroid not in avg:
             avg.append(centroid)
 
-    # fill up unused spots with colors from those avg bins
+    ## fill up unused spots with colors from those avg bins
     extra_clr_list = []
     averages.reverse()
     count = 0
+    samples = 8
+    if size == 16:
+        samples = 4
     for i in range(len(averages)):
         parselist = []
         # alternate where the colors are being taken from
@@ -166,23 +174,19 @@ def median_cut_quantize_rgba(image_path, size, alpha_influence=0.3):
         else:
             parselist = averages[i]
         if i == 7:
-            print(count)
+            print(count, end=" ")
             for j in range((size - len(avg)) - count):
                 extra_clr_list.append(parselist[j])
         else:
-            count += ((size - len(avg)) // 8) + 1
-            for j in range(((size - len(avg)) // 8) + 1):
+            count += ((size - len(avg)) // samples) + 1
+            for j in range(((size - len(avg)) // samples) + 1):
                 extra_clr_list.append(parselist[j])
 
-    print(len(avg), size - len(avg), len(extra_clr_list))
+    print(len(avg), size - len(avg), len(extra_clr_list),end=" ")
     for j in range(size - len(avg)):
         avg.append(extra_clr_list[-1 * (j + 1)])
     image_final, actualfinal = assign_colors(
         pixels, avg, alpha_influence
-    ) 
-
-    if size == 16:
-        return actualfinal, avg, height, width
-    else:
-        return actualfinal, encode_ps2_shift_to_pallete(avg), height, width
-    
+    )  ##image_final was used to directly export it to png for preview
+    print("[DONE]")
+    return actualfinal, encode_ps2_shift_to_pallete(avg), height, width
