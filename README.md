@@ -12,30 +12,41 @@ A Python tool that converts DXT5 DDS files to Yakuza 1&2 (PS3 ONLY) TXB's and .P
 
 ### Usage:
 
-To use the tool, just click on the tool and you will be greeted by a Windows Explorer screen asking you to select files.
-There are mainly 2 types of export options:
+1) Creating PS3/PS2 txbs from image files:\
+    To select images your images to drag and drop or via the explorer window, select:\
+    a) one image if its a TXB haiving one image, or\
+    b) the last image and then shift- click to the first image if its a TXB having more than one image\
+        (ie. if you have 5 images, select the last one and then the first ),\
+    and then select your TXB file.
+          
+    For PS3 TXBS, accepted image input is ALWAYS DDS, for PS2 TXBS it is PNG files. \
+    Make sure you DDS file are of DXT5 format, with mipmaps, when making PS3 TXB files.\
+    Make sure your .PNG files have alpha channel component, when making PS2 TXB files.
 
-1) TXB-Image combo:\
-   Select the TXB and the images (ensure that your images have the same count as in the TXB) and press "Open" in the Explorer.
-2) TXB-TXT combo:\
-  If you have a list of imagepaths and their respective alphaweight values , you can just select the TXB and the TXT file for exporting.
+          
+2) Creating PS2/PS3 TXBs from a text file.\
+    Select both the TXB file and the .TXT file having a format like:
+    > path-to-image_1,weight_1\
+    > path-to-image_2,weight_2\
+    > .\
+    > .\
+    > path-to-image_n,weight_n
+    
+    The program will automatically exit after this.
 
-If you want to make a "imagelists.txt" file, just select only the images and press "Open" in the explorer window.\
-You will then be asked to confirm the path it will save to or else provide a path to an already existing TXT file\
-(ie E:/johndoe/New folder/imagelists.txt and NOT E:/johndoe/New folder ). \
-You will get a TXT file with filepaths and alphaweights which comes handy when compiling for PS2 256 color or 16 color image.
-
+3) Creating a "imagelist" from a collection of images:\
+    Select just the images to get a .txt file, you will then be prompted to save it to a location.\
+    Make sure the format is like how it is in Usage step 2, and image selection is based from the selection "quirk" in 1,\
+    otherwise image order WILL not be like how you intended.
+   
 ### Note:
-  1) Selection order\
-     If you have, for example 5 images named 1-0_0.png to 1-0_4.png and want to do TXB-Image combo, you **MUST** select the last image first (which is 1-0_4.png) and then the TXB (for  a TXB-Image combo) or the first image if you are making "imagelists.txt", otherwise the order exported will be wrong.
-
-  2) Alpha weights\
+  1) Alpha weights\
      Alpha weights dont actually "alter" your export image's alpha but rather is used by the algortithm for handling pixel comparison for PS2 image export and by default is set to 0.3.\
-     If you notice your image has repeating colors/incorrect color, set it to 1 so that more of the alpha component of the image gets considered when comparing pixels.\
-     If you set it to 0, more of the RGB component has higher priorty than the alpha component, which is great for color heavy images but will might compromise a bit on your alpha quality.
+     A value of 1 means alpha is considered in color comparisons , whereas if the value is 0, the alpha is not considered as much as the R,G,B components (alpha is just 0).\
+     Any value in between just affects or "weights" the alpha during comparison.\
+     If you see repeating or inccorect colors, try setting the value lower than 0.3.\
      
      **Alpha weights can only be set with TXB-TXT combo.**
-   3) It is preferable for your DDS files to have some mipmaps if you exporting for a PS3 TXB
      
 ### Credits
    Special thanks goes to:\
@@ -49,5 +60,5 @@ You will get a TXT file with filepaths and alphaweights which comes handy when c
   
 ### Code citations
   https://stackoverflow.com/questions/57025836/how-to-check-if-a-given-number-is-a-power-of-two \
-  Algorithim for exporting PS2 256color and 16color image is based off from Paul Heckbert's Median cut image quatization
+  Algorithim for exporting PS2 256 color and 16 color image is based off from Paul Heckbert's Median cut image quatization.
 
