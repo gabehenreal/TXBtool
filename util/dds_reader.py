@@ -74,14 +74,16 @@ def read_dds_file(filepath, mipmap_count):
             bytes_to_copy = (bytes_to_copy // 16 + 1) * 16
 
         export_data = reader.read_bytes(bytes_to_copy)
-        print(len(export_data), dds_total_filesize, len(export_data) / 16)
+        print(len(export_data), dds_total_filesize, len(export_data) / 16,end=" ")
+        print("[DONE]")
         return export_data, mipmap_count, image_x
 
     elif mipmap_count == dds_mipmap_count:
         reader.seek(image_data_pointer + 4)
         bytesize = dds_total_filesize - (image_data_pointer + 4)
         export_data = reader.read_bytes(bytesize)
-        print(len(export_data), dds_total_filesize, len(export_data) / 16)
+        print(len(export_data), dds_total_filesize, len(export_data) / 16,end=" ")
+        print("[DONE]")
         return export_data, mipmap_count, image_x
     else:
         raise Exception("Could not retrieve image data")
