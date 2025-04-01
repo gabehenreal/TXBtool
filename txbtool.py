@@ -30,7 +30,7 @@ def get_txb_data(txb_filepath):
         reader.seek(skip_bytes)
         header_filesize = reader.read_uint32()
         resolution = reader.read_uint32()  ## dds txbs have only 1 res component
-        txb_ddsmmc = reader.read_uint32()  ## mipmap count IF this is a dds txb, in ps2 this wouldve been another res component
+        txb_ddsmmc = reader.read_uint32() ## mipmap count IF this is a dds txb, in ps2 this wouldve been another res component
         txb_flag = reader.read_uint32()
         mipmap_counts.append(txb_ddsmmc)
 
@@ -61,9 +61,34 @@ def get_txb_data(txb_filepath):
 
 
 def main():
-    # MAIN
-    # filepaths = sys.argv[1:]
     print("TXBtool Ver 1.1")
+    print("""Usage:
+
+1) Creating PS3/PS2 txbs from image files:
+    To select images your images to drag and drop or via the explorer window, select:
+    a) one image if its a TXB haiving one image, or
+    b) the last image and then shift- click to the first image if its a TXB having more than one image
+        (ie. if you have 5 images, select the last one and then the first ),
+    and then select your TXB file.
+          
+    For PS3 TXBS, accepted image input is ALWAYS DDS, for PS2 TXBS it is PNG files. 
+    Make sure you DDS file are of DXT5 format, with mipmaps, when making PS3 TXB files.
+    Make sure your .PNG files have alpha channel component, when making PS2 TXB files.
+          
+2) Creating PS2/PS3 TXBs from a text file.
+    Select both the TXB file and the .TXT file having a format like:
+    path-to-image1,weight1
+    path-to-image2,weight2
+    .
+    .
+    ,etc.
+    The program will automatically exit after this.
+          
+3) Creating a "imagelist" from a collection of images:
+    Select just the images to get a .txt file, you will then be prompted to save it to a location.
+    Make sure the format is like how it is in Usage step 2, and image selection is based from the selection "quirk" in 1,
+    otherwise image order WILL not be like how you intended.
+    """)
     if len(sys.argv) > 1:
         filepaths = sys.argv[1:]
     else:
@@ -99,20 +124,31 @@ def main():
             os.path.join(os.path.dirname(image_paths[-1]), "imagelists.txt"),
         )
 
-        ask = input("Do you wish to save data at this path? (y/n)\n")
+        ask = input("Do you wish to save this .txt file at this path? (y/n)\n")
         if ask == "y" or ask == "Y":
             writepath = os.path.join(os.path.dirname(image_paths[-1]), "imagelists.txt")
         else:
             writepath = input(
-                "Give the directory path to the .txt file you wish to save at.\n"
+                "Give the directory path to where you want to save the .txt file at.\n"
             )
-
+            writepath = os.path.join(writepath, "imagelists.txt")
+                   
+        ### validate filetype
+        for i in image_paths:
+            if i[-3:].lower() not in ("png","dds"):
+                print(i)
+                raise Exception(
+                    f"Expected an image format (.png, .dds, ), got {i[-3:].lower()}"
+                )
+               
         f = open(writepath, "w", newline="")
         csv_w = csv.writer(f)
         for i in image_paths:
             csv_w.writerow([i, 0.3])
         f.close()
-        print(f"Wrote file to:{writepath}")
+        print(f"Wrote file to: {writepath}")
+
+        sys.exit()
 
     ### if we do have a txt, take the inputfiles as well as alphaweights if applicable
     if export_txb_path != "" and input_txt_path != "":
@@ -235,8 +271,7 @@ def main():
     with open(export_txb_path, "wb") as f:
         f.write(writer.buffer())
 
-    input("Done.\nPress ENTER to continue.")
-
+    print(f"Done.\nWrote to {export_txb_path}\nProgram will automatically close.")
 
 if __name__ == "__main__":
     main()
