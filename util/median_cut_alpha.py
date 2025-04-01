@@ -4,7 +4,6 @@ import numpy as np
 
 def encode_ps2_shift_to_pallete(palette_int):
     if len(palette_int) == 256:
-        print(f"Pallete size: {len(palette_int)}", end=" ")
         sliced_palette_int = palette_int[8:]  ### skips the first 8 entries
         temp_buffer = []
         for i in range(8):
